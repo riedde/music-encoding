@@ -175,10 +175,13 @@
     </target>
     
     <target name="build-customizations">
-        <antcall target="build-rng">
+        <!--<antcall target="build-rng">
             <param name="customization.path" value="customizations/mei-all.xml"/>
-        </antcall>
+        </antcall>-->
         <antcall target="build-rng">
+            <param name="customization.path" value="customizations/mei-baudi.xml"/>
+        </antcall>
+        <!--<antcall target="build-rng">
             <param name="customization.path" value="customizations/mei-all_anyStart.xml"/>
         </antcall>
         <antcall target="build-rng">
@@ -192,14 +195,17 @@
         </antcall>
         <antcall target="build-rng">
             <param name="customization.path" value="customizations/mei-Neumes.xml"/>
-        </antcall>
+        </antcall>-->
     </target>
     
     <target name="build-compiled-odds">
-        <antcall target="build-compiled-odd">
+        <!--<antcall target="build-compiled-odd">
             <param name="customization.path" value="customizations/mei-all.xml"/>
-        </antcall>
+        </antcall>-->
         <antcall target="build-compiled-odd">
+            <param name="customization.path" value="customizations/mei-baudi.xml"/>
+        </antcall>
+<!--        <antcall target="build-compiled-odd">
             <param name="customization.path" value="customizations/mei-all_anyStart.xml"/>
         </antcall>
         <antcall target="build-compiled-odd">
@@ -213,14 +219,14 @@
         </antcall>
         <antcall target="build-compiled-odd">
             <param name="customization.path" value="customizations/mei-Neumes.xml"/>
-        </antcall>
+        </antcall>-->
     </target>
     
     <target name="dist" depends="init"><!-- TODO does not work with depends="init" only works if init run before --> <!-- TODO if depends init works add to all other targets and introduce global initialized param so that init will only be reexecuted if init not run before -->
         <classfileset refid="mei.classpath"/>
         <antcall target="build-customizations"/>
         <antcall target="build-compiled-odds"/>
-        <antcall target="build-guidelines-html"/>
+<!--        <antcall target="build-guidelines-html"/>-->
     </target>
     
 </project>

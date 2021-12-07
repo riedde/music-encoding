@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  © 2018 by the Music Encoding Initiative (MEI).
+  Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+  not use this file except in compliance with the License. You may obtain a copy of the License
+  at http://opensource.org/licenses/ECL-2.0.
+  
+  Unless required by applicable law or agreed to in writing, software distributed under the
+  License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+  OF ANY KIND, either express or implied. See the License for the specific language
+  governing permissions and limitations under the License.
+  
+  This is a derivative work based on earlier versions of the schema © 2001-2006 Perry Roland
+  and the Rector and Visitors of the University of Virginia; licensed under the Educational
+  Community License version 1.0.
+  
+  CONTACT: info@music-encoding.org
+-->
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_odds.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>MEI Guidelines for Baumann-Digital (BauDi)</title>
+        <respStmt>
+          <resp>Authored by</resp>
+          <name xml:id="DR">Dennis Ried</name>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <p/>
+      </publicationStmt>
+      <sourceDesc>
+        <p/>
+      </sourceDesc>
+    </fileDesc>
+    <revisionDesc>
+      <change n="1" when="2020-11-12">
+        <desc>Creating ODD using MEI-Garage https://meigarage.edirom.de</desc>
+      </change>
+      <change n="2" when="2020-11-12" who="#dried">
+        <desc>ODD modified for Baumann-Digital (BauDi) specifications.</desc>
+      </change>
+      <change n="3" when="2021-12-07" who="#dried">Schema extention and other necessary modifications.</change>
+    </revisionDesc>
+  </teiHeader>
+  <text>
+    <front>
+      <divGen type="toc"/>
+    </front>
+    <body>
+      <schemaSpec ident="mei" ns="http://www.music-encoding.org/ns/mei" prefix="mei_"
+        start="mei meiCorpus meiHead work expression manifestation item music">
+        <!-- Declare MEI and XLink namespaces for use in Schematron -->
+        <constraintSpec ident="set_ns" scheme="schematron" mode="add">
+          <constraint>
+            <sch:ns xmlns:sch="http://purl.oclc.org/dsdl/schematron" prefix="mei" uri="http://www.music-encoding.org/ns/mei"/>
+            <sch:ns xmlns:sch="http://purl.oclc.org/dsdl/schematron" prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
+          </constraint>
+        </constraintSpec>
+
+        <!-- Include modules -->
+        <moduleRef key="MEI"/>
+        <!--        <moduleRef key="MEI.analytical"/>-->
+        <moduleRef key="MEI.cmn"/>
+<!--        <moduleRef key="MEI.cmnOrnaments"/>-->
+        <moduleRef key="MEI.corpus"/>
+        <moduleRef key="MEI.critapp"/>
+        <moduleRef key="MEI.drama"/>
+        <moduleRef key="MEI.edittrans"/>
+        <!--        <moduleRef key="MEI.externalsymbols"/>-->
+        <moduleRef key="MEI.facsimile"/>
+        <moduleRef key="MEI.figtable"/>
+        <moduleRef key="MEI.fingering"/>
+        <moduleRef key="MEI.frbr"/>
+        <moduleRef key="MEI.genetic"/>
+<!--        <moduleRef key="MEI.gestural"/>-->
+        <!--        <moduleRef key="MEI.harmony"/>-->
+        <moduleRef key="MEI.header"/>
+        <moduleRef key="MEI.lyrics"/>
+        <!--        <moduleRef key="MEI.mensural"/>-->
+<!--        <moduleRef key="MEI.midi"/>-->
+        <moduleRef key="MEI.msDesc"/>
+        <moduleRef key="MEI.namesdates"/>
+        <!--        <moduleRef key="MEI.neumes"/>-->
+        <moduleRef key="MEI.performance"/>
+        <moduleRef key="MEI.ptrref"/>
+        <moduleRef key="MEI.shared"/>
+        <!--        <moduleRef key="MEI.stringtab"/>-->
+        <moduleRef key="MEI.text"/>
+        <!--        <moduleRef key="MEI.usersymbols"/>-->
+        <!--        <moduleRef key="MEI.visual"/>-->
+
+        <!-- Include SVG -->
+        <!--<moduleRef url="https://www.tei-c.org/release/xml/tei/custom/schema/relaxng/svg11.rng"
+          prefix="svg_">
+          <content>
+            <rng:define name="mei_model.graphicLike" combine="choice">
+              <rng:ref name="svg_svg"/>
+            </rng:define>
+          </content>
+        </moduleRef>-->
+
+        <elementSpec ident="mei" module="MEI" mode="change">
+          <attList>
+            <attDef ident="meiversion" mode="replace" usage="req">
+              <desc>Defines the version of mei that is used.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <valList>
+                <valItem ident="4.0.0"/>
+                <valItem ident="4.0.1"/>
+              </valList>
+            </attDef>
+            <attDef ident="status" mode="add" usage="req">
+            <desc>Defines the status of proofreading. This attribute is required.</desc>
+            <datatype maxOccurs="1" minOccurs="1">
+              <dataRef key="teidata.enumerated"/>
+            </datatype>
+            <valList>
+              <valItem ident="created"/>
+              <valItem ident="checked"/>
+              <valItem ident="public"/>
+            </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec module="MEI.shared" ident="term" mode="change">
+          <constraintSpec ident="text-matched-type" scheme="schematron">
+            <constraint>
+              <sch:report test="@type = 'workGroup' and not(@subtype = ('chamber','instrumental','orchestral','vocal'))"> Subtype of
+                workGroup should be one of 'chamber','instrumental','orchestral','vocal'</sch:report>
+              <sch:report test="@type ='genre' and not( @subtype = ('cantata','choir','song','stringQuartett','violin','organ','piano'))"> Subtype of genre should one of be 'cantata','choir','song','stringQuartett','violin','organ','piano'</sch:report>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="type" mode="replace" usage="req">
+              <datatype minOccurs="1" maxOccurs="1">
+                <rng:data type="NCName"/>
+              </datatype>
+              <valList type="closed">
+                <valItem ident="source"/>
+                <valItem ident="workGroup"/>
+                <valItem ident="genre"/>
+                <valItem ident="keyword"/>
+              </valList>
+            </attDef>
+            <attDef ident="subtype" mode="add" usage="opt">
+              <datatype minOccurs="1" maxOccurs="1">
+                <rng:data type="NCName"/>
+              </datatype>
+              <valList type="closed">
+                <valItem ident="chamber"/>
+                <valItem ident="orchestral"/>
+                <valItem ident="vocal"/>
+                <valItem ident="song"/>
+                <valItem ident="choir"/>
+                <valItem ident="stingQuartett"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec module="MEI.header" ident="work" mode="change">
+          <constraintSpec ident="text-matched-type" scheme="schematron">
+            <constraint>
+              <sch:report test="not(parent::mei:workList) and not(parent::mei:componentList) and not(@xml:id)"> @xml:id is required because work is not part of workList or componentList</sch:report>
+              <sch:report test="parent::mei:componentList and not(@auth)"> @auth is required because work is part of componentList (a source-file must be linked) </sch:report>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="xml:id" mode="change" usage="rec">
+              <desc>Regularizes the naming of an element and thus facilitates building links between it and other resources. Each
+                id attribute within a document must have a unique value. In case of 'work' is the root element, @xml:id is
+                required</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:data type="ID"/>
+              </datatype>
+            </attDef>
+            <attDef ident="status" mode="add" usage="rec">
+              <desc>Defines the status of proofreading. This attribute is required.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <valList>
+                <valItem ident="created"/>
+                <valItem ident="checked"/>
+                <valItem ident="public"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec module="MEI.frbr" ident="expression" mode="change">
+          <constraintSpec ident="text-matched-type" scheme="schematron">
+            <constraint>
+              <sch:report test="not(parent::mei:expressionList) and not(parent::mei:componentList) and not(@xml:id)"> @xml:id is required because expression is not part of expressionList or componentList</sch:report>
+              <sch:report test="parent::mei:componentList and not(@auth)"> @auth is required because expression is part of componentList (a source-file must be linked) </sch:report>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="xml:id" mode="change" usage="rec">
+              <desc>Regularizes the naming of an element and thus facilitates building links between it and other resources. Each
+                id attribute within a document must have a unique value. In case of 'expression' is the root element, @xml:id is
+                required</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:data type="ID"/>
+              </datatype>
+            </attDef>
+            <attDef ident="status" mode="add" usage="rec">
+              <desc>Defines the status of proofreading. This attribute is required.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <valList>
+                <valItem ident="created"/>
+                <valItem ident="checked"/>
+                <valItem ident="public"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec module="MEI.frbr" ident="manifestation" mode="change">
+          <constraintSpec ident="text-matched-type" scheme="schematron">
+            <constraint>
+              <sch:report test="not(parent::mei:manifestationList) and not(parent::mei:componentList) and not(@xml:id)"> @xml:id is required because manifestation is not part of manifestationList or componentList</sch:report>
+              <sch:report test="parent::mei:componentList and not(@auth)"> @auth is required because manifestation is part of componentList (a source-file must be linked) </sch:report>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="xml:id" mode="change" usage="rec">
+              <desc>Regularizes the naming of an element and thus facilitates building links between it and other resources. Each
+                id attribute within a document must have a unique value. In case of 'manifestation' is the root element, @xml:id is
+                required</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:data type="ID"/>
+              </datatype>
+            </attDef>
+            <attDef ident="status" mode="add" usage="rec">
+              <desc>Defines the status of proofreading. This attribute is required.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <valList>
+                <valItem ident="created"/>
+                <valItem ident="checked"/>
+                <valItem ident="public"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        <elementSpec module="MEI.frbr" ident="item" mode="change">
+          <constraintSpec ident="text-matched-type" scheme="schematron">
+            <constraint>
+              <sch:report test="not(parent::mei:itemList) and not(parent::mei:componentList) and not(@xml:id)"> @xml:id is required because item is not part of itemList or componentList</sch:report>
+              <sch:report test="parent::mei:componentList and not(@auth)"> @auth is required because item is part of componentList (a source-file must be linked) </sch:report>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="xml:id" mode="change" usage="rec">
+              <desc>Regularizes the naming of an element and thus facilitates building links between it and other resources. Each
+                id attribute within a document must have a unique value. In case of 'item' is the root element, @xml:id is
+                required</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:data type="ID"/>
+              </datatype>
+            </attDef>
+            <attDef ident="status" mode="add" usage="rec">
+              <desc>Defines the status of proofreading. This attribute is required.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <valList>
+                <valItem ident="created"/>
+                <valItem ident="checked"/>
+                <valItem ident="public"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+
+        <elementSpec ident="annot" mode="change" module="MEI.shared">
+          <desc>(annotation) – Provides a statement explaining the text or indicating the basis for an assertion.</desc>
+          <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.annot.log"/>
+            <memberOf key="att.annot.vis"/>
+            <memberOf key="att.annot.ges"/>
+            <memberOf key="att.annot.anl"/>
+            <memberOf key="att.audience"/>
+            <memberOf key="att.bibl"/>
+            <memberOf key="att.dataPointing"/>
+            <memberOf key="att.facsimile"/>
+            <memberOf key="att.lang"/>
+            <memberOf key="att.plist"/>
+            <memberOf key="att.source"/>
+            <memberOf key="att.targetEval"/>
+            <memberOf key="model.annotLike"/>
+          </classes>
+          <content>
+            <rng:choice>
+              <rng:group>
+                <rng:zeroOrMore>
+                  <rng:ref name="model.headLike"/>
+                  <rng:ref name="model.pLike"/>
+                </rng:zeroOrMore>
+                <rng:zeroOrMore>
+                  <rng:ref name="model.textComponentLike"/>
+                  <rng:ref name="model.pLike"/>
+                </rng:zeroOrMore>
+              </rng:group>
+              <rng:zeroOrMore>
+                <rng:choice>
+                  <rng:text/>
+                  <rng:ref name="model.editLike"/>
+                  <rng:ref name="model.pLike"/>
+                  <rng:ref name="model.textPhraseLike"/>
+                  <rng:ref name="model.transcriptionLike"/>
+                </rng:choice>
+              </rng:zeroOrMore>
+              <rng:zeroOrMore>
+                <rng:choice>
+                  <rng:text/>
+                  <rng:ref name="model.eventLike"/>
+                </rng:choice>
+              </rng:zeroOrMore>
+            </rng:choice>
+          </content>
+          <constraintSpec ident="Check_annot_data" scheme="schematron">
+            <constraint>
+              <sch:rule context="mei:annot[@data]">
+                <sch:assert test="ancestor::mei:notesStmt">The @data attribute may only occur on an annotation within the
+                  notesStmt element.</sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
+          <attList>
+            <attDef ident="type" mode="change" usage="rec">
+              <datatype minOccurs="1" maxOccurs="1">
+                <rng:data type="NCName"/>
+              </datatype>
+              <valList type="semi">
+                <valItem ident="ambitus"/>
+              </valList>
+            </attDef>
+          </attList>
+          <remarks>
+            <p part="N">The <gi scheme="MEI">annot</gi> element can be used for both general comments and for annotations of the
+              musical text. It provides a way to group participating *events* and/or *control events*, for example, the notes that
+              form a descending bass line, and provide a label for and comment regarding the group. Participating entities may be
+              identified in the <att scheme="TEI">plist</att> attribute. An editorial or analytical comment or observation may be
+              included directly within the <gi scheme="MEI">annot</gi> element. The starting point of the annotation may be
+              indicated by either a <att scheme="TEI">tstamp</att> , <att scheme="TEI">tstamp.ges</att> , <att scheme="TEI"
+                >tstamp.real</att> or <att scheme="TEI">startid</att> attribute, while the ending point may be recorded by either
+              a <att scheme="TEI">dur</att> , <att scheme="TEI">dur.ges</att> or <att scheme="TEI">endid</att> attribute. The <att
+                scheme="TEI">resp</att>
+            </p>
+          </remarks>
+        </elementSpec>
+        <elementSpec ident="note" mode="change" module="MEI.shared">
+          <desc>(annotation) – Provides a statement explaining the text or indicating the basis for an assertion.</desc>
+          <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.facsimile"/>
+            <memberOf key="att.note.log"/>
+            <memberOf key="att.note.vis"/>
+            <memberOf key="att.note.ges"/>
+            <memberOf key="att.note.anl"/>
+            <memberOf key="model.chordPart"/>
+            <memberOf key="model.eventLike"/>
+            <memberOf key="att.accidental"/>
+          </classes>
+          <attList>
+            <attDef ident="type" mode="change" usage="req">
+              <datatype minOccurs="1" maxOccurs="1">
+                <rng:data type="NCName"/>
+              </datatype>
+              <valList type="closed">
+                <valItem ident="start"/>
+                <valItem ident="startAlt"/>
+                <valItem ident="end"/>
+                <valItem ident="endAlt"/>
+              </valList>
+            </attDef>
+          </attList>
+        </elementSpec>
+        
+        
+        <elementSpec ident="range" module="MEI.shared" mode="add">
+          <desc>Mandatory range of an instrument concerning a work.</desc>
+          <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.ambitus.log"/>
+            <memberOf key="att.metadataPointing"/>
+          </classes>
+          <content>
+            <rng:ref name="rangeNote"/>
+            <rng:ref name="rangeNote"/>
+          </content>
+        </elementSpec>
+        
+        
+        <elementSpec ident="rangeNote" module="MEI.shared" mode="add">
+          <desc>Highest or lowest pitch in a work concerning the current perfRes.</desc>
+          <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.ambNote.log"/>
+          </classes>
+          <content>
+            <rng:empty/>
+          </content>
+        </elementSpec>
+        
+        
+        <elementSpec ident="perfRes" module="MEI.header" mode="change">
+          <desc>(performance resource) – Name of an instrument on which a performer plays, a performer's voice range, or a standard performing ensemble designation.</desc>
+          <classes>
+            <memberOf key="att.common"/>
+            <memberOf key="att.authorized"/>
+            <memberOf key="att.bibl"/>
+            <memberOf key="att.edit"/>
+            <memberOf key="att.lang"/>
+          </classes>
+          <content>
+            <rng:zeroOrMore>
+              <rng:choice>
+                <rng:text/>
+                <rng:ref name="model.textPhraseLike.limited" />
+                <rng:ref name="perfRes" />
+                <rng:ref name="range" />
+              </rng:choice>
+            </rng:zeroOrMore>
+          </content>
+          <attList org="group">
+            <attDef ident="count" usage="opt">
+              <desc>Indicates the number of performers.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:data type="positiveInteger"/>
+              </datatype>
+            </attDef>
+            <attDef ident="solo" usage="opt">
+              <desc>Marks this instrument or vocal part as a soloist. Do not use this attribute for a solo instrument which is not accompanied.</desc>
+              <datatype maxOccurs="1" minOccurs="1">
+                <rng:ref name="data.BOOLEAN" />
+              </datatype>
+            </attDef>
+          </attList>
+        </elementSpec>
+        
+      </schemaSpec>
+    </body>
+  </text>
+</TEI>
