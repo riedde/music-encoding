@@ -19,7 +19,7 @@
             </tokenfilter>
         </filterchain>
     </loadresource>
-    <property name="version" value="dev"/><!-- in XSLT version = att.meiversion defaultVal -->
+    <property name="version" value="4.0.1"/><!-- before 'dev';  in XSLT version = att.meiversion defaultVal -->
     <property name="dir.dist" value="dist"/>
     <property name="dir.dist.guidelines" value="${basedir}/${dir.dist}/guidelines/${version}"/> 
     <property name="dir.dist.schemata" value="${basedir}/${dir.dist}/schemata/${version}"/>
@@ -227,6 +227,13 @@
         <antcall target="build-customizations"/>
         <antcall target="build-compiled-odds"/>
 <!--        <antcall target="build-guidelines-html"/>-->
+        
+        <copy todir="../../BauDi/baudiResources/data/schema/">
+            <file file="dist/schemata/4.0.1/mei-baudi.rng"/>
+        </copy>
+        <copy todir="../../BauDi/baudiOxygenFramework/schema/">
+            <file file="dist/schemata/4.0.1/mei-baudi.rng"/>
+        </copy>
     </target>
     
 </project>
