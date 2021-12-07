@@ -112,6 +112,7 @@
               <valList>
                 <valItem ident="4.0.0"/>
                 <valItem ident="4.0.1"/>
+                <valItem ident="5.0.0-dev"/>
               </valList>
             </attDef>
             <attDef ident="status" mode="add" usage="req">
